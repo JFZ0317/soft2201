@@ -19,8 +19,6 @@ public class PlayerFactory implements EntityFactory{
         images.put(PacmanVisual.LEFT, loadImage("playerLeft.png"));
         images.put(PacmanVisual.RIGHT, loadImage("playerRight.png"));
         images.put(PacmanVisual.CLOSED, loadImage("playerClosed.png"));
-        double width = 16;
-        double height = 16;
         Vector2D topLeft = new Vector2D(x, y);
         BoundingBoxImpl box = new BoundingBoxImpl(topLeft,height,width);
         KinematicStateImpl.KinematicStateBuilder builder = new KinematicStateImpl.KinematicStateBuilder();
