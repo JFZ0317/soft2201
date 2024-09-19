@@ -58,7 +58,7 @@ public class LevelImpl implements Level {
             throw new ConfigurationParseException("Player entity is not controllable");
         }
         this.player = (Controllable) maze.getControllable();
-//        this.player.setSpeed(levelConfigurationReader.getPlayerSpeed());
+        this.player.setSpeed(levelConfigurationReader.getPlayerSpeed());
         setNumLives(maze.getNumLives());
 
 

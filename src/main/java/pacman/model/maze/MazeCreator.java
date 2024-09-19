@@ -45,6 +45,9 @@ public class MazeCreator {
                     if (currentChar == 'p') {
                         maze.addRenderable(playerfactory.createEntity(display_x,display_y), RenderableType.PACMAN,display_x,display_y);
                     }
+                    /**
+                     * TO DO: Ghost, wall, pillet
+                     */
                 }
 
                 y += 1;
