@@ -1,5 +1,7 @@
 package pacman.model.maze;
 
+import pacman.model.entity.factory.PlayerFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -21,7 +23,7 @@ public class MazeCreator {
     public Maze createMaze(){
         File f = new File(this.fileName);
         Maze maze = new Maze();
-
+        PlayerFactory playerfactory = new PlayerFactory();
         try {
             Scanner scanner = new Scanner(f);
 
@@ -36,7 +38,13 @@ public class MazeCreator {
                     /**
                      * TO DO: Implement Factory Method Pattern
                      */
+                    char currentChar = row[x];
+                    int display_x = x * (448/28);
+                    int display_y = y * (576/36);
 
+                    if (currentChar == 'p') {
+                        maze.addRenderable(playerfactory.createEntity(display_x,display_y), RenderableType.PACMAN,display_x,display_y);
+                    }
                 }
 
                 y += 1;

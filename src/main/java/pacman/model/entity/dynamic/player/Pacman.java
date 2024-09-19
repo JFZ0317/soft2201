@@ -83,6 +83,7 @@ public class Pacman implements Controllable {
 
     @Override
     public void left() {
+        System.out.println("left");
         this.kinematicState.left();
         this.currentImage = images.get(PacmanVisual.LEFT);
     }
@@ -120,7 +121,7 @@ public class Pacman implements Controllable {
                 .build();
 
         // go left by default
-        left();
+//        left();
     }
 
     @Override
@@ -145,6 +146,7 @@ public class Pacman implements Controllable {
 
     @Override
     public Direction getDirection() {
+//        System.out.println(this.kinematicState.getDirection());
         return this.kinematicState.getDirection();
     }
 

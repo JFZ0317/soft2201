@@ -53,24 +53,20 @@ public class LevelImpl implements Level {
 //        System.out.println(this.renderables.size());
 
 
-        // Set up player
+//         Set up player
         if (!(maze.getControllable() instanceof Controllable)) {
             throw new ConfigurationParseException("Player entity is not controllable");
-//            用来检查一个对象是否是某个类的实例，或者是否实现了某个接口。
         }
         this.player = (Controllable) maze.getControllable();
-        this.player.setSpeed(levelConfigurationReader.getPlayerSpeed());
+//        this.player.setSpeed(levelConfigurationReader.getPlayerSpeed());
         setNumLives(maze.getNumLives());
-        // 将 Pac-Man 添加到迷宫
-        maze.addRenderable(this.player, RenderableType.PACMAN, 27, 14); // 需要添加 x 和 y 坐标 后加的
+
 
         // Set up ghosts
         this.ghosts = maze.getGhosts().stream()//
                 .map(element -> (Ghost) element)
                 .collect(Collectors.toList());
-        Map<GhostMode, Double> ghostSpeeds = levelConfigurationReader.getGhostSpeeds();//后加的
-//返回的集合转换为一个 Stream 对象，方便对集合中的每个元素进行操作。
-//Collectors.toList() 将 Stream 中的所有元素收集成一个 List，即一个鬼怪列表。
+        Map<GhostMode, Double> ghostSpeeds = levelConfigurationReader.getGhostSpeeds();
 
         for (Ghost ghost : this.ghosts) {
             ghost.setSpeeds(ghostSpeeds);
@@ -168,6 +164,7 @@ public class LevelImpl implements Level {
 
     @Override
     public void moveLeft() {
+//        System.out.println("left");
         player.left();
     }
 

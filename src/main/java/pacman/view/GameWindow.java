@@ -77,6 +77,7 @@ public class GameWindow {
                 }
             }
             if (notFound) {
+//                System.out.println(entity);
                 EntityView entityView = new EntityViewImpl(entity);
                 entityViews.add(entityView);
                 pane.getChildren().add(entityView.getNode());
@@ -85,6 +86,7 @@ public class GameWindow {
 
         for (EntityView entityView : entityViews) {
             if (entityView.isMarkedForDelete()) {
+//                System.out.println("delete");
                 pane.getChildren().remove(entityView.getNode());
             }
         }
