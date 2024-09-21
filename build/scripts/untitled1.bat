@@ -67,7 +67,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\untitled1-1.0-SNAPSHOT.jar;%APP_HOME%\lib\javafx-controls-17.0.2-win.jar;%APP_HOME%\lib\javafx-media-17.0.2-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.2-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.2.jar;%APP_HOME%\lib\javafx-base-17.0.2-win.jar;%APP_HOME%\lib\javafx-base-17.0.2.jar;%APP_HOME%\lib\json-simple-1.1.1.jar;%APP_HOME%\lib\junit-4.10.jar;%APP_HOME%\lib\hamcrest-core-1.1.jar
+set CLASSPATH=%APP_HOME%\lib\untitled1-1.0-SNAPSHOT.jar;%APP_HOME%\lib\javafx-controls-17.0.2-mac.jar;%APP_HOME%\lib\javafx-media-17.0.2-mac.jar;%APP_HOME%\lib\javafx-graphics-17.0.2-mac.jar;%APP_HOME%\lib\javafx-graphics-17.0.2.jar;%APP_HOME%\lib\javafx-base-17.0.2-mac.jar;%APP_HOME%\lib\javafx-base-17.0.2.jar;%APP_HOME%\lib\json-simple-1.1.1.jar;%APP_HOME%\lib\junit-4.10.jar;%APP_HOME%\lib\hamcrest-core-1.1.jar
 
 
 @rem Execute untitled1

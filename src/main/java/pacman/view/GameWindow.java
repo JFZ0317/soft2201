@@ -29,6 +29,13 @@ public class GameWindow {
     private final GameEngine model;
     private final List<EntityView> entityViews;
 
+
+
+//    参数: GameEngine model 是游戏的逻辑模型，int width 和 int height 是游戏窗口的宽度和高度。
+//pane 和 scene: 创建 Pane 作为界面容器，并通过 Scene 包裹它，表示整个游戏窗口的视图。
+//entityViews: 初始化一个空的 ArrayList，用来存储游戏中的实体视图。
+//键盘输入: 使用 KeyboardInputHandler 处理键盘输入，将按键事件传递给游戏模型。
+//背景绘制: 使用 StandardBackgroundDrawer 绘制背景，背景是静态的迷宫结构
     public GameWindow(GameEngine model, int width, int height) {
         this.model = model;
 
@@ -44,10 +51,15 @@ public class GameWindow {
         backgroundDrawer.draw(model, pane);
     }
 
+//    作用: 返回当前的 Scene，以便其他部分可以访问该窗口的可视区域。
     public Scene getScene() {
         return scene;
     }
 
+
+//Timeline 用于创建一个定时器，每 34 毫秒调用一次 draw() 方法（即每秒钟约调用 30 次）。这控制了游戏的刷新率，使得游戏每帧更新一次。
+//setCycleCount(Timeline.INDEFINITE): 表示这个定时器会一直运行，直到手动停止。
+//model.startGame(): 启动游戏逻辑，开始运行游戏。
     public void run() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(34),
                 t -> this.draw()));
@@ -58,6 +70,16 @@ public class GameWindow {
         model.startGame();
     }
 
+
+//model.tick(): 更新游戏的逻辑状态。这会调用模型的 tick() 方法，推进游戏的一帧。
+//List<Renderable> entities = model.getRenderables(): 获取当前所有需要渲染的游戏实体（如 Pac-Man、鬼怪等）。
+//markForDelete(): 遍历 entityViews 列表，标记所有现有的实体视图为“待删除”。这是为了在后面判断哪些实体需要移除。
+//查找和更新视图:
+//对每个实体，查找现有的 EntityView，如果找到了匹配的视图，更新该视图。
+//如果没有找到对应的视图，创建新的 EntityViewImpl 并添加到 entityViews 列表和 pane 中。
+//删除过时的实体视图:
+//如果某个 EntityView 标记为删除，则从 pane 中移除对应的节点（即从界面上移除该实体）。
+//从 entityViews 列表中移除所有标记为删除的实体视图。
     private void draw() {
         model.tick();
 

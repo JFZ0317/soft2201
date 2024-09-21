@@ -1,5 +1,7 @@
 package pacman.model.maze;
 
+import pacman.model.entity.factory.GhostFactory;
+import pacman.model.entity.factory.PelletFactory;
 import pacman.model.entity.factory.PlayerFactory;
 
 import java.io.File;
@@ -24,6 +26,8 @@ public class MazeCreator {
         File f = new File(this.fileName);
         Maze maze = new Maze();
         PlayerFactory playerfactory = new PlayerFactory();
+        GhostFactory ghostfactory = new GhostFactory();
+        PelletFactory pelletFactory = new PelletFactory();
         try {
             Scanner scanner = new Scanner(f);
 
@@ -44,6 +48,12 @@ public class MazeCreator {
 
                     if (currentChar == 'p') {
                         maze.addRenderable(playerfactory.createEntity(display_x,display_y), RenderableType.PACMAN,display_x,display_y);
+                    }
+                    if (currentChar == 'g'){
+                        maze.addRenderable(ghostfactory.createEntity(display_x,display_y), RenderableType.GHOST,display_x,display_y);
+                    }
+                    if (currentChar == '7'){
+                        maze.addRenderable(pelletFactory.createEntity(display_x,display_y),RenderableType.PELLET,display_x,display_y);
                     }
                     /**
                      * TO DO: Ghost, wall, pillet
