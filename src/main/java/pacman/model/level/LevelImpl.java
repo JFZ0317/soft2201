@@ -163,7 +163,7 @@ public class LevelImpl implements Level,Subject {
             for (StaticEntity staticEntity : getStaticEntities()) {
                 if (dynamicEntityA.collidesWith(staticEntity)) {
                     dynamicEntityA.collideWith(this, staticEntity);
-                    if (this.isCollectable(staticEntity)){
+                    if ((dynamicEntityA instanceof Pacman) && this.isCollectable(staticEntity)){
 //                        System.out.println(staticEntity);
                         this.collect((Collectable) staticEntity);
 
