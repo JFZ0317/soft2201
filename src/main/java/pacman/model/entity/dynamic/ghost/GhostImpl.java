@@ -122,6 +122,7 @@ public class GhostImpl implements Ghost {
     public void collideWith(Level level, Renderable renderable) {
         if (level.isPlayer(renderable)) {
             level.handleLoseLife();
+
         }
     }
 

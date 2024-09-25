@@ -151,9 +151,7 @@ public class LevelImpl implements Level,Subject {
                         dynamicEntityB.collidesWith(dynamicEntityA)) {
                     dynamicEntityA.collideWith(this, dynamicEntityB);
                     dynamicEntityB.collideWith(this, dynamicEntityA);
-                    if (dynamicEntityA instanceof Pacman || dynamicEntityB instanceof Pacman){
-                        this.player.reset();
-                    }
+
 
                 }
             }
@@ -226,6 +224,10 @@ public class LevelImpl implements Level,Subject {
         numLives--;
 
         notifyObservers();
+        player.reset();
+//        for (Ghost g : ghosts){
+//            g.reset();
+//        }
         if(numLives == 0){
             handleGameEnd();
         }
