@@ -7,6 +7,7 @@ import java.util.*;
 import pacman.model.entity.dynamic.player.Pacman;
 import pacman.model.entity.dynamic.player.PacmanVisual;
 import pacman.model.entity.dynamic.physics.*;
+import pacman.model.entity.staticentity.WallVisual;
 
 public class PlayerFactory implements EntityFactory{
     private Image loadImage(String fileName) {
@@ -23,8 +24,13 @@ public class PlayerFactory implements EntityFactory{
         BoundingBoxImpl box = new BoundingBoxImpl(topLeft,height,width);
         KinematicStateImpl.KinematicStateBuilder builder = new KinematicStateImpl.KinematicStateBuilder();
         builder = builder.setPosition(topLeft);
-        builder = builder.setSpeed(0);
+        builder = builder.setSpeed(1);
         builder = builder.setDirection(Direction.RIGHT);
         return new Pacman(images.get(PacmanVisual.RIGHT),images,box,builder.build());
+    }
+
+    @Override
+    public Renderable createEntity(int x, int y, WallVisual wallVisual) {
+        return null;
     }
 }

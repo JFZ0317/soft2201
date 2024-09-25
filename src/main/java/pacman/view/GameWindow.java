@@ -7,12 +7,18 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import pacman.model.engine.GameEngine;
 import pacman.model.entity.Renderable;
+import pacman.model.entity.observe.ScoreObserver;
+import pacman.model.entity.observe.ScoreObserverImpl;
+import pacman.model.entity.observe.Subject;
+import pacman.model.level.Level;
 import pacman.view.background.BackgroundDrawer;
 import pacman.view.background.StandardBackgroundDrawer;
 import pacman.view.entity.EntityView;
 import pacman.view.entity.EntityViewImpl;
 import pacman.view.keyboard.KeyboardInputHandler;
+import javafx.scene.control.Label;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +37,7 @@ public class GameWindow {
 
 
 
+
 //    参数: GameEngine model 是游戏的逻辑模型，int width 和 int height 是游戏窗口的宽度和高度。
 //pane 和 scene: 创建 Pane 作为界面容器，并通过 Scene 包裹它，表示整个游戏窗口的视图。
 //entityViews: 初始化一个空的 ArrayList，用来存储游戏中的实体视图。
@@ -41,6 +48,16 @@ public class GameWindow {
 
         pane = new Pane();
         scene = new Scene(pane, width, height);
+
+//        scoreLabel = new Label("score: 0");
+//        scoreLabel.setLayoutX(10);
+//        scoreLabel.setLayoutY(10);
+//        pane.getChildren().add(scoreLabel);
+
+//        ScoreObserver scoreObserver = new ScoreObserverImpl(scoreLabel);
+//        ((Subject) (model.getlevel())).addObserver(scoreObserver); // 假设你的 GameEngine 模型支持观察者模式
+
+
 
         entityViews = new ArrayList<>();
 
@@ -68,6 +85,9 @@ public class GameWindow {
         timeline.play();
 
         model.startGame();
+        for (Label label: ((Subject) (model.getlevel())).draw_labels()){
+            pane.getChildren().add(label);
+        }
     }
 
 
@@ -114,5 +134,14 @@ public class GameWindow {
         }
 
         entityViews.removeIf(EntityView::isMarkedForDelete);
+    }
+    private void showGameOverMessage() {
+        // 在屏幕上显示 "Game Over" 信息，假设有一个 Pane 作为根布局
+        Label gameOverLabel = new Label("Game Over!");
+        gameOverLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: red;");
+        gameOverLabel.setLayoutX(200); // 设置游戏结束文本的 X 位置
+        gameOverLabel.setLayoutY(150); // 设置游戏结束文本的 Y 位置
+
+        pane.getChildren().add(gameOverLabel); // 将文本添加到 Pane 中显示
     }
 }

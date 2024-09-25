@@ -1,14 +1,16 @@
 package pacman.model.level;
 
 import pacman.model.entity.Renderable;
+import pacman.model.entity.observe.ScoreObserver;
 import pacman.model.entity.staticentity.collectable.Collectable;
+import pacman.model.entity.observe.Subject;
 
 import java.util.List;
 
 /**
  * The base interface for a Pac-Man level.
  */
-public interface Level {
+public interface Level{
     /**
      * Return a list of the currently existing Renderables
      * @return The list of current renderable for this level

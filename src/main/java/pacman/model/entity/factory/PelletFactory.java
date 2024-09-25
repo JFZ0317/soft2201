@@ -9,6 +9,7 @@ import pacman.model.entity.dynamic.ghost.GhostMode;
 import pacman.model.entity.dynamic.player.Pacman;
 import pacman.model.entity.dynamic.player.PacmanVisual;
 import pacman.model.entity.dynamic.physics.*;
+import pacman.model.entity.staticentity.WallVisual;
 import pacman.model.entity.staticentity.collectable.Pellet;
 
 
@@ -29,5 +30,10 @@ public class PelletFactory implements EntityFactory{
         int points = 1;
 
         return new Pellet(box,layer,pellet_image, points);
+    }
+
+    @Override
+    public Renderable createEntity(int x, int y, WallVisual wallVisual) {
+        return null;
     }
 }

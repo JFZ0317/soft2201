@@ -2,7 +2,9 @@ package pacman.model.maze;
 
 import pacman.model.entity.dynamic.DynamicEntity;
 import pacman.model.entity.Renderable;
+import pacman.model.entity.dynamic.ghost.GhostImpl;
 import pacman.model.entity.dynamic.physics.Direction;
+import pacman.model.entity.dynamic.player.Pacman;
 
 import java.util.*;
 
@@ -47,6 +49,14 @@ public class Maze {
             }
 
             this.renderables.add(renderable);
+        }
+    }
+    public void setTarget() {
+        for (Renderable ghost : ghosts) {
+            if (ghost instanceof GhostImpl) {
+                GhostImpl ghostImpl = (GhostImpl) ghost;
+                ghostImpl.setPlayer((Pacman) this.pacman);
+            }
         }
     }
 
@@ -104,6 +114,7 @@ public class Maze {
 
             String rightCoordinates = formatCoordinates(xTile + 1, yTile);
             if (isWall.get(rightCoordinates) == null){
+                System.out.println("right");
                 possibleDirections.add(Direction.RIGHT);
             }
         } else {

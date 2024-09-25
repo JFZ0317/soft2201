@@ -3,6 +3,8 @@ package pacman.model.maze;
 import pacman.model.entity.factory.GhostFactory;
 import pacman.model.entity.factory.PelletFactory;
 import pacman.model.entity.factory.PlayerFactory;
+import pacman.model.entity.factory.WallFactory;
+import pacman.model.entity.staticentity.WallVisual;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +30,7 @@ public class MazeCreator {
         PlayerFactory playerfactory = new PlayerFactory();
         GhostFactory ghostfactory = new GhostFactory();
         PelletFactory pelletFactory = new PelletFactory();
+        WallFactory wallFactory = new WallFactory();
         try {
             Scanner scanner = new Scanner(f);
 
@@ -55,7 +58,26 @@ public class MazeCreator {
                     if (currentChar == '7'){
                         maze.addRenderable(pelletFactory.createEntity(display_x,display_y),RenderableType.PELLET,display_x,display_y);
                     }
-                    /**
+                    if (currentChar == '1'){
+                        maze.addRenderable(wallFactory.createEntity(display_x,display_y, WallVisual.Horizontal_Wall),RenderableType.HORIZONTAL_WALL,display_x,display_y);
+                    }
+                    if (currentChar == '2'){
+                        maze.addRenderable(wallFactory.createEntity(display_x,display_y, WallVisual.Vertical_Wall),RenderableType.VERTICAL_WALL,display_x,display_y);
+                    }
+                    if (currentChar == '3'){
+                        maze.addRenderable(wallFactory.createEntity(display_x,display_y, WallVisual.up_left),RenderableType.UP_LEFT_WALL,display_x,display_y);
+                    }
+                    if (currentChar == '4'){
+                        maze.addRenderable(wallFactory.createEntity(display_x,display_y, WallVisual.up_right),RenderableType.UP_RIGHT_WALL,display_x,display_y);
+                    }
+                    if (currentChar == '5'){
+                        maze.addRenderable(wallFactory.createEntity(display_x,display_y, WallVisual.down_left),RenderableType.DOWN_LEFT_WALL,display_x,display_y);
+                    }
+                    if (currentChar == '6'){
+                        maze.addRenderable(wallFactory.createEntity(display_x,display_y, WallVisual.down_right),RenderableType.DOWN_RIGHT_WALL,display_x,display_y);
+                    }
+
+                    /**display_y
                      * TO DO: Ghost, wall, pillet
                      */
                 }
@@ -64,11 +86,13 @@ public class MazeCreator {
             }
 
             scanner.close();
+            maze.setTarget();
         }
         catch (FileNotFoundException e){
             System.out.println("No maze file was found.");
             exit(0);
         } catch (Exception e){
+            e.printStackTrace();
             System.out.println("Error");
             exit(0);
         }

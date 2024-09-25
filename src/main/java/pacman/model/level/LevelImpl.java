@@ -1,5 +1,6 @@
 package pacman.model.level;
 
+import javafx.scene.control.Label;
 import org.json.simple.JSONObject;
 import pacman.ConfigurationParseException;
 import pacman.model.entity.Renderable;
@@ -9,10 +10,15 @@ import pacman.model.entity.dynamic.ghost.GhostMode;
 import pacman.model.entity.dynamic.physics.PhysicsEngine;
 import pacman.model.entity.dynamic.player.Controllable;
 import pacman.model.entity.dynamic.player.Pacman;
+import pacman.model.entity.observe.LivesObserver;
+import pacman.model.entity.observe.LivesObserverImpl;
+import pacman.model.entity.observe.ScoreObserver;
+import pacman.model.entity.observe.Subject;
 import pacman.model.entity.staticentity.StaticEntity;
 import pacman.model.entity.staticentity.collectable.Collectable;
 import pacman.model.maze.Maze;
 import pacman.model.maze.RenderableType;
+import pacman.view.GameWindow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * Concrete implement of Pac-Man level
  */
-public class LevelImpl implements Level {
+public class LevelImpl implements Level,Subject {
 
     private static final int START_LEVEL_TIME = 200;
     private final Maze maze;
@@ -35,6 +41,11 @@ public class LevelImpl implements Level {
     private int numLives;
     private List<Renderable> collectables;
     private GhostMode currentGhostMode;
+    private List<ScoreObserver> scoreobservers;
+    private List<LivesObserver> livesobservers;
+
+    public int score;
+    private GameWindow gameWindow;
 
     public LevelImpl(JSONObject levelConfiguration,
                      Maze maze) {
@@ -43,6 +54,10 @@ public class LevelImpl implements Level {
         this.tickCount = 0;
         this.modeLengths = new HashMap<>();
         this.currentGhostMode = GhostMode.SCATTER;
+        scoreobservers = new ArrayList<>();
+        livesobservers = new ArrayList<>();
+
+        this.score = 0;
 
         initLevel(new LevelConfigurationReader(levelConfiguration));
     }
@@ -106,7 +121,9 @@ public class LevelImpl implements Level {
         if (tickCount == modeLengths.get(currentGhostMode)) {
 
             // update ghost mode
-            this.currentGhostMode = GhostMode.getNextGhostMode(currentGhostMode);
+            //this.currentGhostMode = GhostMode.getNextGhostMode(currentGhostMode);
+            this.currentGhostMode = GhostMode.CHASE;
+//            System.out.println(this.currentGhostMode);
             for (Ghost ghost : this.ghosts) {
                 ghost.setGhostMode(this.currentGhostMode);
             }
@@ -137,6 +154,8 @@ public class LevelImpl implements Level {
                         dynamicEntityB.collidesWith(dynamicEntityA)) {
                     dynamicEntityA.collideWith(this, dynamicEntityB);
                     dynamicEntityB.collideWith(this, dynamicEntityA);
+
+
                 }
             }
 
@@ -144,6 +163,12 @@ public class LevelImpl implements Level {
             for (StaticEntity staticEntity : getStaticEntities()) {
                 if (dynamicEntityA.collidesWith(staticEntity)) {
                     dynamicEntityA.collideWith(this, staticEntity);
+                    if (this.isCollectable(staticEntity)){
+//                        System.out.println(staticEntity);
+                        this.collect((Collectable) staticEntity);
+
+                    }
+//                    System.out.println("get points");
                     PhysicsEngine.resolveCollision(dynamicEntityA, staticEntity);
                 }
             }
@@ -199,15 +224,80 @@ public class LevelImpl implements Level {
 
     @Override
     public void handleLoseLife() {
+        numLives--;
+
+        notifyLivesObservers();
+        if(numLives == 0){
+            handleGameEnd();
+        }
     }
 
     @Override
     public void handleGameEnd() {
+        System.out.println("Game over");
+//        showGameOverMessage();
+
+
+    }
+
+
+    @Override
+    public void collect(Collectable collectable) {
+        score += collectable.getPoints();
+        notifyScoreObservers();
+        collectable.collect();
+//        System.out.println(score);
 
     }
 
     @Override
-    public void collect(Collectable collectable) {
+    public void addScoreObserver(ScoreObserver scoreObserver) {
+        scoreobservers.add(scoreObserver);
 
     }
+
+    @Override
+    public void removeScoreObserver(ScoreObserver scoreObserver) {
+        scoreobservers.remove(scoreObserver);
+
+    }
+
+    @Override
+    public void notifyScoreObservers() {
+        for (ScoreObserver observer : scoreobservers){
+            observer.updateScore(score);
+
+        }
+    }
+
+    @Override
+    public void addLivesObserver(LivesObserver livesObserver) {
+        livesobservers.add(livesObserver);
+
+    }
+
+    @Override
+    public void removeLivesObserver(LivesObserver livesObserver) {
+        livesobservers.remove(livesObserver);
+
+    }
+
+    @Override
+    public void notifyLivesObservers() {
+        for (LivesObserver observer : livesobservers){
+            observer.updateLives(numLives);
+
+        }
+    }
+
+    @Override
+    public List<Label> draw_labels(){
+        List<Label> labels = new ArrayList<>();
+        for (ScoreObserver o : scoreobservers){
+            labels.add(o.draw());
+        }
+        return labels;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package pacman.model.entity.dynamic.ghost;
 import javafx.scene.image.Image;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
+import pacman.model.entity.dynamic.player.Pacman;
 import pacman.model.level.Level;
 import pacman.model.maze.Maze;
 
@@ -25,6 +26,7 @@ public class GhostImpl implements Ghost {
     private Set<Direction> possibleDirections;
     private Vector2D playerPosition;
     private Map<GhostMode, Double> speeds;
+    private Pacman player;
 
     public GhostImpl(Image image, BoundingBox boundingBox, KinematicState kinematicState, GhostMode ghostMode, Vector2D targetCorner, Direction currentDirection) {
         this.image = image;
@@ -35,6 +37,11 @@ public class GhostImpl implements Ghost {
         this.currentDirection = currentDirection;
         this.possibleDirections = new HashSet<>();
         this.targetCorner = targetCorner;
+//        this.targetLocation = getTargetLocation();
+    }
+    public void setPlayer(Pacman player){
+        System.out.println(player);
+        this.player = player;
         this.targetLocation = getTargetLocation();
     }
 
@@ -74,7 +81,8 @@ public class GhostImpl implements Ghost {
     private Vector2D getTargetLocation() {
         return switch (this.ghostMode) {
             // how does Ghost get the Player's position ??
-            case CHASE -> this.playerPosition;
+//            case CHASE -> this.playerPosition;
+            case CHASE -> this.player.getPosition();
             case SCATTER -> this.targetCorner;
         };
     }
