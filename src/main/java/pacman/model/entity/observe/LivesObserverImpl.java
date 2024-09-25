@@ -1,14 +1,19 @@
 package pacman.model.entity.observe;
 
-import pacman.model.entity.observe.LivesObserver;
+import javafx.scene.control.Label;
 
-public class LivesObserverImpl implements LivesObserver {
+public class LivesObserverImpl implements Observer {
+    private Label liveLabel;
+    public LivesObserverImpl(Label liveLabel){
+        this.liveLabel = liveLabel;
+    }
     @Override
-    public void updateLives(int lives) {
-        if (lives > 0) {
-            System.out.println("Player has " + lives + " lives remaining.");
-        } else {
-            System.out.println("Player has no lives left!");
-        }
+    public void update(int lives) {
+        String str = "Player lives: " + lives;
+        liveLabel.setText(str);
+    }
+    @Override
+    public Label draw(){
+        return liveLabel;
     }
 }

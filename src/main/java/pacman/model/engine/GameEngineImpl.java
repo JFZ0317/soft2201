@@ -4,7 +4,8 @@ import javafx.scene.control.Label;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import pacman.model.entity.Renderable;
-import pacman.model.entity.observe.ScoreObserver;
+import pacman.model.entity.observe.LivesObserverImpl;
+import pacman.model.entity.observe.Observer;
 import pacman.model.entity.observe.ScoreObserverImpl;
 import pacman.model.entity.observe.Subject;
 import pacman.model.level.Level;
@@ -88,13 +89,21 @@ public class GameEngineImpl implements GameEngine {
         this.currentLevel = new LevelImpl(levelConfig, maze);
 
         Label scoreLabel = new Label();
+        scoreLabel.setStyle("-fx-text-fill: white;");
+        String str = "Score: " + 0;
+        scoreLabel.setText(str);
+        Label liveLabel = new Label();
+        liveLabel.setStyle("-fx-text-fill: white;");
+        String str1 = "Player lives: " + 0;
+        liveLabel.setText(str1);
+        liveLabel.setLayoutY(576-20);
         if (currentLevel instanceof Subject) {
-            Subject subjectLevel = (Subject) currentLevel;  // 类型转换
-
-            // 创建得分观察者，并将其添加到当前 Level
-            ScoreObserver scoreObserver = new ScoreObserverImpl(scoreLabel);
-            subjectLevel.addScoreObserver(scoreObserver);
-            System.out.println(scoreLabel.getText());
+            Subject subjectLevel = (Subject) currentLevel;
+            Observer scoreObserver = new ScoreObserverImpl(scoreLabel);
+            Observer livesObserver = new LivesObserverImpl(liveLabel);
+            subjectLevel.addObserver(scoreObserver);
+            subjectLevel.addObserver(livesObserver);
+//            System.out.println(scoreLabel.getText());
         } else {
             System.out.println("currentLevel does not support observers.");
         }

@@ -2,7 +2,7 @@ package pacman.model.entity.observe;
 
 import javafx.scene.control.Label;
 
-public interface ScoreObserver {
-    void updateScore(int score);
+public interface Observer {
+    void update(int score);
     Label draw();
 }

@@ -1,9 +1,8 @@
 package pacman.model.entity.observe;
 
 import javafx.scene.control.Label;
-import pacman.model.entity.observe.ScoreObserver;
 
-public class ScoreObserverImpl implements ScoreObserver {
+public class ScoreObserverImpl implements Observer {
     private Label scoreLabel;
 
     public ScoreObserverImpl(Label scoreLabel){
@@ -11,10 +10,9 @@ public class ScoreObserverImpl implements ScoreObserver {
     }
 
     @Override
-    public void updateScore(int score) {
-        String str = String.valueOf(score);
+    public void update(int score) {
+        String str = "Score: " + score;
         scoreLabel.setText(str);
-//        System.out.println(scoreLabel);
     }
     @Override
     public Label draw(){

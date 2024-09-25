@@ -66,11 +66,11 @@ public class GhostImpl implements Ghost {
         // Ghosts update their target location when they reach an intersection
         if (Maze.isAtIntersection(this.possibleDirections)) {
             this.targetLocation = getTargetLocation();
-            System.out.println(this.targetLocation);
+//            System.out.println(this.targetLocation);
         }
 
         this.currentDirection = selectDirection(possibleDirections);
-        System.out.println(this.currentDirection);
+//        System.out.println(this.currentDirection);
         switch (currentDirection) {
             case LEFT -> this.kinematicState.left();
             case RIGHT -> this.kinematicState.right();

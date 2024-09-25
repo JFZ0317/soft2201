@@ -10,14 +10,13 @@ import pacman.model.entity.dynamic.ghost.GhostMode;
 import pacman.model.entity.dynamic.physics.PhysicsEngine;
 import pacman.model.entity.dynamic.player.Controllable;
 import pacman.model.entity.dynamic.player.Pacman;
-import pacman.model.entity.observe.LivesObserver;
 import pacman.model.entity.observe.LivesObserverImpl;
-import pacman.model.entity.observe.ScoreObserver;
+import pacman.model.entity.observe.Observer;
+import pacman.model.entity.observe.ScoreObserverImpl;
 import pacman.model.entity.observe.Subject;
 import pacman.model.entity.staticentity.StaticEntity;
 import pacman.model.entity.staticentity.collectable.Collectable;
 import pacman.model.maze.Maze;
-import pacman.model.maze.RenderableType;
 import pacman.view.GameWindow;
 
 import java.util.ArrayList;
@@ -41,8 +40,7 @@ public class LevelImpl implements Level,Subject {
     private int numLives;
     private List<Renderable> collectables;
     private GhostMode currentGhostMode;
-    private List<ScoreObserver> scoreobservers;
-    private List<LivesObserver> livesobservers;
+    private List<Observer> observers;
 
     public int score;
     private GameWindow gameWindow;
@@ -54,8 +52,7 @@ public class LevelImpl implements Level,Subject {
         this.tickCount = 0;
         this.modeLengths = new HashMap<>();
         this.currentGhostMode = GhostMode.SCATTER;
-        scoreobservers = new ArrayList<>();
-        livesobservers = new ArrayList<>();
+        observers = new ArrayList<>();
 
         this.score = 0;
 
@@ -228,7 +225,7 @@ public class LevelImpl implements Level,Subject {
     public void handleLoseLife() {
         numLives--;
 
-        notifyLivesObservers();
+        notifyObservers();
         if(numLives == 0){
             handleGameEnd();
         }
@@ -246,56 +243,40 @@ public class LevelImpl implements Level,Subject {
     @Override
     public void collect(Collectable collectable) {
         score += collectable.getPoints();
-        notifyScoreObservers();
+        notifyObservers();
         collectable.collect();
 //        System.out.println(score);
 
     }
 
     @Override
-    public void addScoreObserver(ScoreObserver scoreObserver) {
-        scoreobservers.add(scoreObserver);
+    public void addObserver(Observer scoreObserver) {
+        observers.add(scoreObserver);
 
     }
 
     @Override
-    public void removeScoreObserver(ScoreObserver scoreObserver) {
-        scoreobservers.remove(scoreObserver);
+    public void removeObserver(Observer scoreObserver) {
+        observers.remove(scoreObserver);
 
     }
 
     @Override
-    public void notifyScoreObservers() {
-        for (ScoreObserver observer : scoreobservers){
-            observer.updateScore(score);
-
-        }
-    }
-
-    @Override
-    public void addLivesObserver(LivesObserver livesObserver) {
-        livesobservers.add(livesObserver);
-
-    }
-
-    @Override
-    public void removeLivesObserver(LivesObserver livesObserver) {
-        livesobservers.remove(livesObserver);
-
-    }
-
-    @Override
-    public void notifyLivesObservers() {
-        for (LivesObserver observer : livesobservers){
-            observer.updateLives(numLives);
-
+    public void notifyObservers() {
+        for (Observer observer : observers){
+            if (observer instanceof ScoreObserverImpl){
+                observer.update(score);
+            }
+            if (observer instanceof LivesObserverImpl){
+                observer.update(numLives);
+            }
         }
     }
 
     @Override
     public List<Label> draw_labels(){
         List<Label> labels = new ArrayList<>();
-        for (ScoreObserver o : scoreobservers){
+        for (Observer o : observers){
             labels.add(o.draw());
         }
         return labels;

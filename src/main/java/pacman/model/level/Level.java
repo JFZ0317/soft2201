@@ -1,9 +1,7 @@
 package pacman.model.level;
 
 import pacman.model.entity.Renderable;
-import pacman.model.entity.observe.ScoreObserver;
 import pacman.model.entity.staticentity.collectable.Collectable;
-import pacman.model.entity.observe.Subject;
 
 import java.util.List;
 

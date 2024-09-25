@@ -7,10 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import pacman.model.engine.GameEngine;
 import pacman.model.entity.Renderable;
-import pacman.model.entity.observe.ScoreObserver;
-import pacman.model.entity.observe.ScoreObserverImpl;
 import pacman.model.entity.observe.Subject;
-import pacman.model.level.Level;
 import pacman.view.background.BackgroundDrawer;
 import pacman.view.background.StandardBackgroundDrawer;
 import pacman.view.entity.EntityView;
@@ -18,7 +15,6 @@ import pacman.view.entity.EntityViewImpl;
 import pacman.view.keyboard.KeyboardInputHandler;
 import javafx.scene.control.Label;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

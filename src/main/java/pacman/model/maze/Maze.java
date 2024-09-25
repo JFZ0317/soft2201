@@ -114,7 +114,7 @@ public class Maze {
 
             String rightCoordinates = formatCoordinates((xTile + 1)*16, yTile*16);
             if (isWall.get(rightCoordinates) == null){
-                System.out.println("right");
+//                System.out.println("right");
                 possibleDirections.add(Direction.RIGHT);
             }
         } else {
