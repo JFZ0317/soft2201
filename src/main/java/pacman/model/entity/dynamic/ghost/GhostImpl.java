@@ -66,10 +66,11 @@ public class GhostImpl implements Ghost {
         // Ghosts update their target location when they reach an intersection
         if (Maze.isAtIntersection(this.possibleDirections)) {
             this.targetLocation = getTargetLocation();
+            System.out.println(this.targetLocation);
         }
 
         this.currentDirection = selectDirection(possibleDirections);
-
+        System.out.println(this.currentDirection);
         switch (currentDirection) {
             case LEFT -> this.kinematicState.left();
             case RIGHT -> this.kinematicState.right();
@@ -95,6 +96,7 @@ public class GhostImpl implements Ghost {
         Map<Direction, Double> distances = new HashMap<>();
 
         for (Direction direction : possibleDirections) {
+//            System.out.println(direction);
             // ghosts never choose to reverse travel
             if (direction != currentDirection.opposite()) {
                 distances.put(direction, Vector2D.calculateEuclideanDistance(this.kinematicState.getPotentialPosition(direction), this.targetLocation));

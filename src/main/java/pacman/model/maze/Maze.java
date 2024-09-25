@@ -81,7 +81,7 @@ public class Maze {
     }
 
     private int getCenterOfTile(int index){
-        return index * MazeCreator.RESIZING_FACTOR + MazeCreator.RESIZING_FACTOR/2;
+        return index *MazeCreator.RESIZING_FACTOR + MazeCreator.RESIZING_FACTOR/2;
     }
 
     /**
@@ -97,22 +97,22 @@ public class Maze {
         if (Math.abs(getCenterOfTile(xTile) - dynamicEntity.getCenter().getX()) < MAX_CENTER_DISTANCE &&
                 Math.abs(getCenterOfTile(yTile) - dynamicEntity.getCenter().getY()) < MAX_CENTER_DISTANCE){
 
-            String aboveCoordinates = formatCoordinates(xTile, yTile - 1);
+            String aboveCoordinates = formatCoordinates(xTile*16, (yTile - 1)*16);
             if (isWall.get(aboveCoordinates) == null){
                 possibleDirections.add(Direction.UP);
             }
 
-            String belowCoordinates = formatCoordinates(xTile, yTile + 1);
+            String belowCoordinates = formatCoordinates(xTile*16, (yTile + 1)*16);
             if (isWall.get(belowCoordinates) == null){
                 possibleDirections.add(Direction.DOWN);
             }
 
-            String leftCoordinates = formatCoordinates(xTile - 1, yTile);
+            String leftCoordinates = formatCoordinates((xTile - 1)*16, (yTile)*16);
             if (isWall.get(leftCoordinates) == null){
                 possibleDirections.add(Direction.LEFT);
             }
 
-            String rightCoordinates = formatCoordinates(xTile + 1, yTile);
+            String rightCoordinates = formatCoordinates((xTile + 1)*16, yTile*16);
             if (isWall.get(rightCoordinates) == null){
                 System.out.println("right");
                 possibleDirections.add(Direction.RIGHT);
@@ -124,6 +124,7 @@ public class Maze {
 
         dynamicEntity.setPossibleDirections(possibleDirections);
     }
+
 
 
     /**
